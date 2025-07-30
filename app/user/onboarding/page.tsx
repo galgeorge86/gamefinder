@@ -1,12 +1,15 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
-import { useState, Suspense } from "react";
+import { useUser } from "@clerk/nextjs";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
+import { useState, Suspense, FormEvent } from "react";
 
 function OnboardingForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectUrl = searchParams.get("redirect_url") || "/";
+  const redirectUrl = searchParams.get("redirect_url") || "/user/profile";
+
+  
 
   // Form state
   const [form, setForm] = useState({
@@ -39,12 +42,33 @@ function OnboardingForm() {
   const removeDeck = (idx: number) =>
     setForm({ ...form, decks: form.decks.filter((_, i) => i !== idx) });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitting(true);
+    
+    const {username, bio, play_style, location, preferred_play_location} = Object.fromEntries(new FormData(e.currentTarget))
     // TODO: Submit form data to your API
     // await fetch(...)
-    router.push(redirectUrl);
+    const res = await fetch ('/api/user/submit-onboarding', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: username,
+        bio: bio,
+        play_style: play_style,
+        location: location,
+        preferred_play_location: preferred_play_location,
+        decks: form.decks
+      })
+    })
+    
+    if(res.status == 200)
+      router.push(redirectUrl);
+
+    setSubmitting(false);
   };
 
   return (
@@ -143,9 +167,20 @@ function OnboardingForm() {
 }
 
 export default function OnboardingPage() {
-  return (
-    <Suspense fallback={<div className="max-w-xl mx-auto p-6">Loading...</div>}>
-      <OnboardingForm />
-    </Suspense>
-  );
+  const {isLoaded, isSignedIn} = useUser()
+
+  {/* Allow access to page only for authenticated users*/}
+  if(isLoaded && !isSignedIn) {
+    redirect('/auth/sign-in')
+  }
+
+  if(isLoaded && isSignedIn) {
+      return (
+      <Suspense fallback={<div className="max-w-xl mx-auto p-6">Loading...</div>}>
+        <OnboardingForm />
+      </Suspense>
+    );
+  }
+
+  
 }
