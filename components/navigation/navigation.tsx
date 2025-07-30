@@ -29,6 +29,11 @@ const Navigation: React.FC = () => {
                     </Link>
                 </SignedOut>
                 <SignedIn>
+                    <Link href={'/user/profile'}>
+                        <button className="p-2 my-auto h-fit bg-foreground/10 px-4 flex items-center rounded-full hover:bg-foreground hover:text-background duration-100 text-foreground">
+                            View profile
+                        </button>
+                    </Link>
                     <UserButton/>
                 </SignedIn>
                 </div>
