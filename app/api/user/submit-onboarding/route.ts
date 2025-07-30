@@ -10,6 +10,9 @@ export async function POST (req: NextRequest) {
 
     try {
         const {username, bio, play_style, location, preferred_play_location, decks} = await req.json()
+
+        const decksJson = decks.map((deck: string) => ({title: deck}))
+
         const updateUser = await prisma.users.update({
             where: {clerk_user_id: user.userId},
             data: {
@@ -18,7 +21,7 @@ export async function POST (req: NextRequest) {
                 play_style: play_style as string,
                 location: location as string,
                 play_location: preferred_play_location as string,
-                decks: decks
+                decks: decksJson
             }
         })
         if(updateUser) {

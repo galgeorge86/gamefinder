@@ -62,9 +62,9 @@ export default function UserProfilePage () {
                     </div>
                     <div className="h-[1px] rounded-full w-full bg-foreground/5"/>
                     <ul>
-                        {user.decks.map((deck: string, index: number) => (
+                        {user.decks.map((deck: {title: string}, index: number) => (
                             <li key={index}>
-                                {deck}
+                                {deck.title}
                             </li>
                         ))}
                     </ul>
