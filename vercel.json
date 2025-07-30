@@ -1,5 +1,0 @@
-{
-  "includeFiles": [
-    "node_modules/@prisma/client/runtime/query_compiler_bg.postgresql.wasm"
-  ]
-}
