@@ -7,9 +7,9 @@ const Navigation: React.FC = () => {
             <header className="p-4 flex w-full justify-between max-w-[1280px] mx-auto">
                 {/* Gamefinder Logo (To be added) */}
                 <div className="flex flex-row my-auto gap-2">
-                    <a href="/"> 
+                    <Link href="/"> 
                         <span className="text-2xl font-bold my-auto">GameFindr</span>
-                    </a>
+                    </Link>
                     <div className="flex py-1 px-2 h-fit w-fit my-auto rounded-full bg-white text-black">
                         <span className="text-xs">dev</span>
                     </div>

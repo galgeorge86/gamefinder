@@ -8,7 +8,7 @@ import { RiMapFill, RiMapPinFill, RiPuzzleFill } from "react-icons/ri"
 
 export default function UserProfilePage () {
 
-    const {isPending, isError, data: user} = useQuery({
+    const {isPending, data: user} = useQuery({
         queryKey: ['user-profile'],
         queryFn: () => 
             fetch('/api/user/get-profile').then((res) => 
@@ -28,7 +28,7 @@ export default function UserProfilePage () {
             <div className="m-auto w-md flex flex-col gap-4 p-4 rounded-xl border-1 border-foreground/5">
                 <div className="flex flex-row gap-4">
                     <div className="rounded-full aspect-square h-fit mt-0 mb-auto w-1/4 overflow-hidden flex">
-                        <img src={user.avatar_url}></img>
+                        <img alt="avatar" src={user.avatar_url}></img>
                     </div>
                     <div className="flex flex-col gap-4">
                         <div className="flex flex-col">
