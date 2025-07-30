@@ -2,12 +2,6 @@ import { PrismaClient } from '@/app/generated/prisma/client'
 import { PrismaNeon } from '@prisma/adapter-neon'
 import { withAccelerate } from '@prisma/extension-accelerate'
 
-import { neonConfig } from '@neondatabase/serverless'
-import ws from 'ws'
-
-neonConfig.webSocketConstructor = ws
-neonConfig.poolQueryViaFetch = true
-
 const connectionString = process.env.DATABASE_URL
 
 const adapter = new PrismaNeon({connectionString})
